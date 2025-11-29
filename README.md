@@ -1,7 +1,5 @@
 # Proyecto Final Ecommerse Java con Spring Boot
 
-# Demo Productos
-
 Aplicación RESTful en Java (Spring Boot + Spring Data JPA) para gestionar productos. Provee operaciones CRUD y búsqueda por nombre y/o precio.
 
 ## Tecnologías
@@ -45,18 +43,58 @@ Entidad `Producto` con campos:
 - `DELETE /products/{id}`  
   Elimina el producto por id.
 
-## Ejemplos (curl)
-- Crear:
+## A continuación ejemplos directos para importar/ejecutar en Postman (usar tipo de body = raw - JSON). URL base: http://localhost:8080/products
 
-curl -X POST -H "Content-Type: application/json" -d '{"nombre":"Lapiz","precio":10.5,"cantidad":20}' http://localhost:8080/products
+# Crear producto (POST)
+POST http://localhost:8080/products
+Content-Type: application/json
 
-- Listar con filtro:
+{
+  "nombre": "Lapiz",
+  "precio": 10.5,
+  "cantidad": 20
+}
 
-curl "http://localhost:8080/products?nombre=Lap&precio=50"
+# Listar todos (GET)
+GET http://localhost:8080/products
+Accept: application/json
 
-- Borrar:
+# Listar filtrando por nombre (GET)
+GET http://localhost:8080/products?nombre=Lap
+Accept: application/json
 
-curl -X DELETE http://localhost:8080/products/1
+# Listar filtrando por precio (GET)
+GET http://localhost:8080/products?precio=50
+Accept: application/json
+
+# Listar por ambos filtros (GET)
+GET http://localhost:8080/products?nombre=Lap&precio=50
+Accept: application/json
+
+# Actualizar completo (PUT) - reemplazo (en el código actual solo modifica nombre)
+PUT http://localhost:8080/products/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "nombre": "Lapiz Pro",
+  "precio": 12.0,
+  "cantidad": 15
+}
+
+# Actualización parcial (PATCH) - body con los campos a cambiar
+PATCH http://localhost:8080/products/1
+Content-Type: application/json
+
+{
+  "precio": 8.5
+}
+
+# Borrar producto (DELETE)
+DELETE http://localhost:8080/products/1
+Accept: application/json
+
+
 
 ## Build y ejecución
 - Compilar y ejecutar con Maven:
