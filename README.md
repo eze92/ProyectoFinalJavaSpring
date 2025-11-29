@@ -1,53 +1,42 @@
-# Proyecto Final Ecommerse Java con Spring Boot
+🛒 Proyecto Final — E‑commerce API (Java + Spring Boot)
+API RESTful desarrollada en Java con Spring Boot para la gestión de productos de un e‑commerce.
+Incluye operaciones CRUD completas, búsqueda filtrada, y actualización parcial mediante PATCH.
 
-Aplicación RESTful en Java (Spring Boot + Spring Data JPA) para gestionar productos. Provee operaciones CRUD y búsqueda por nombre y/o precio.
-
-## Tecnologías
-- Java
+🚀 Tecnologías utilizadas
+- Java 17+
 - Spring Boot
 - Spring Data JPA
 - Maven
-- (Configurar base de datos en `src/main/resources/application.properties` o usar una base en memoria para desarrollo)
+- Base de datos configurable (MySQL, H2, etc.)
+La configuración de la base de datos se realiza en
+src/main/resources/application.properties.
 
-## Modelo principal
-Entidad `Producto` con campos:
-- `id` (Long, generado)
-- `nombre` (String)
-- `precio` (double)
-- `cantidad` (int)
+📦 Modelo de datos
+Entidad principal: Producto
+|  |  |  | 
+| id |  |  | 
+| nombre |  |  | 
+| precio |  |  | 
+| cantidad |  |  | 
 
-## Qué hace
-- Crear, listar, editar, eliminar y actualizar parcialmente productos.
-- Filtrado de lista por `nombre` (contiene) y/o `precio` (<=).
-- Actualización parcial mediante `PATCH` aceptando `nombre`, `cantidad` y/o `precio`.
 
-## Endpoints
-- `POST /products`  
-  Crea un producto. Body JSON: `{ "nombre": "Lapiz", "precio": 10.5, "cantidad": 20 }`
 
-- `GET /products`  
-  Lista productos. Query params opcionales: `nombre` (texto parcial), `precio` (valor máximo).  
-  Ejemplos:
-  - `/products` — todos
-  - `/products?nombre=Lap` — nombre contiene "Lap"
-  - `/products?precio=50` — precio <= 50
-  - `/products?nombre=Lap&precio=50` — ambos filtros
+✅ Funcionalidades principales
+- Crear productos
+- Listar todos los productos
+- Filtrar por:
+- nombre (coincidencia parcial)
+- precio (menor o igual)
+- Editar un producto completo (PUT)
+- Actualizar parcialmente (PATCH)
+- Eliminar productos por ID
 
-- `PUT /products/{id}`  
-  Edita el producto completo (en el código actual solo modifica el `nombre`). Body JSON con campos del producto.
 
-- `PATCH /products/{id}`  
-  Actualización parcial. Body JSON con cualquier combinación de:  
-  `{ "nombre": "Nuevo", "cantidad": 5, "precio": 12.99 }`
+📡 Endpoints de la API
+POST /products
+Crea un nuevo producto.
+Body ejemplo:
 
-- `DELETE /products/{id}`  
-  Elimina el producto por id.
-
-## A continuación ejemplos directos para importar/ejecutar en Postman (usar tipo de body = raw - JSON). URL base: http://localhost:8080/products
-
-# Crear producto (POST)
-POST http://localhost:8080/products
-Content-Type: application/json
 
 {
   "nombre": "Lapiz",
@@ -55,25 +44,18 @@ Content-Type: application/json
   "cantidad": 20
 }
 
-# Listar todos (GET)
-GET http://localhost:8080/products
-Accept: application/json
+GET /products
+Lista todos los productos o aplica filtros opcionales
 
-# Listar filtrando por nombre (GET)
-GET http://localhost:8080/products?nombre=Lap
-Accept: application/json
+Ejemplos:
+- /products — todos
+- /products?nombre=Lap
+- /products?precio=50
+- /products?nombre=Lap&precio=50
 
-# Listar filtrando por precio (GET)
-GET http://localhost:8080/products?precio=50
-Accept: application/json
-
-# Listar por ambos filtros (GET)
-GET http://localhost:8080/products?nombre=Lap&precio=50
-Accept: application/json
-
-# Actualizar completo (PUT) - reemplazo (en el código actual solo modifica nombre)
-PUT http://localhost:8080/products/1
-Content-Type: application/json
+PUT /products/{id}
+Reemplaza el producto completo.
+(En la implementación actual solo modifica el nombre.
 
 {
   "id": 1,
@@ -82,29 +64,39 @@ Content-Type: application/json
   "cantidad": 15
 }
 
-# Actualización parcial (PATCH) - body con los campos a cambiar
-PATCH http://localhost:8080/products/1
-Content-Type: application/json
+PATCH /products/{id}
+Actualización parcial.
+Se puede enviar cualquier combinación de campos:
 
 {
   "precio": 8.5
 }
 
-# Borrar producto (DELETE)
-DELETE http://localhost:8080/products/1
-Accept: application/json
+DELETE /products/{id}
+Elimina un producto por su ID.
 
+🛠️ Build y ejecución
+Ejecutar con Maven
 
+mvn clean package
+java -jar target/<nombre-del-jar>.jar
 
-## Build y ejecución
-- Compilar y ejecutar con Maven:
-
-mvn clean package java -jar target/<nombre-del-jar>.jar
-
+O ejecutar directamente
 mvn spring-boot:run
 
-## Notas
-- Configurar la conexión a la base de datos en `src/main/resources/application.properties` (URL, usuario, contraseña, dialecto).
-- Validaciones mínimas en el servicio (p. ej. nombre no nulo/no en blanco para editar).
-- Los métodos de búsqueda usan los métodos de Spring Data JPA: `findByNombreContaining`, `findByPrecioLessThanEqual`, `findByNombreContainingAndPrecioLessThanEqual`.
+ Notas importantes
+- Configurar la base de datos en application.properties (URL, usuario, contraseña, dialecto).
+- Validaciones mínimas implementadas (ej.: nombre no nulo/no vacío).
+- Búsquedas implementadas con métodos de Spring Data JPA:
+- findByNombreContaining
+- findByPrecioLessThanEqual
+- findByNombreContainingAndPrecioLessThanEqual
+
+
+
+
+
+
+
+
 
