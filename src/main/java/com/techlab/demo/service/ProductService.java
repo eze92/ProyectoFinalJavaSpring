@@ -3,6 +3,7 @@ package com.techlab.demo.service;
 import com.techlab.demo.model.Producto;
 import com.techlab.demo.repository.ProductoRepository;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
@@ -73,4 +74,23 @@ public class ProductService {
     System.out.println("Se borro correctamente el producto con id: " + producto.getId());
     return producto;
   }
+
+  public Producto actualizarProductoParcial(Long id, Map<String, Object> cambios) {
+    Producto producto = this.productoRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+    if (cambios.containsKey("nombre")) {
+      producto.setNombre((String) cambios.get("nombre"));
+    }
+    if (cambios.containsKey("cantidad")) {
+      producto.setCantidad((Integer) cambios.get("cantidad"));
+    }
+    if (cambios.containsKey("precio")) {
+      producto.setPrecio(((Number) cambios.get("precio")).doubleValue());
+    }
+
+    return productoRepository.save(producto);
+  }
+
+
 }

@@ -3,8 +3,10 @@ package com.techlab.demo.controller;
 import com.techlab.demo.model.Producto;
 import com.techlab.demo.service.ProductService;
 import java.util.List;
+import java.util.Map;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -44,5 +46,13 @@ public class ProductController {
   public Producto borrarProducto(@PathVariable(name = "id") Long productId) {
     return this.service.borrarProducto(productId);
   }
+
+  // PATCH para actualizaciones parciales (nombre o cantidad o precio)
+  @PatchMapping("/products/{id}")
+  public Producto actualizarProducto(@PathVariable Long id, @RequestBody Map<String, Object> cambios) {
+    return this.service.actualizarProductoParcial(id, cambios);
+  }
+
+
 
 }
